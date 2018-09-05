@@ -1,2 +1,4 @@
 # CairnFORM
-CairnFORM pilot (sequence or parallel control, MQTT network).
+CairnFORM pilot:
+  - sequence and parallel control
+  - MQTT network
