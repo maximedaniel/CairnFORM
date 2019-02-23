@@ -1,6 +1,6 @@
 import time
 
-from Adafruit_MotorHAT.Adafruit_PWM_Servo_Driver import PWM
+from driver.Adafruit_MotorHAT import PWM
 
 class Adafruit_StepperMotor:
     MICROSTEPS = 8

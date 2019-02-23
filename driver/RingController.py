@@ -1,10 +1,4 @@
 #!/usr/bin/python
-import sys
-import atexit
-import struct
-import math
-import numpy as np
-from Transition import Transition
 POSITION_MAX = 450
 
 class Ring:

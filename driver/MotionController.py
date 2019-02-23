@@ -1,11 +1,8 @@
 #!/usr/bin/python
 #import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_Stepper
 #from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
-from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
-import time
-import sys
-import atexit
-import struct
+from driver.Adafruit_MotorHAT import Adafruit_MotorHAT
+
 
 class MotionController:
     

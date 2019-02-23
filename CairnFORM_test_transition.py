@@ -1,8 +1,7 @@
-from RingController import RingController
+from driver.RingController import RingController
 import time
-import paho.mqtt.client as mqtt
 
-from Transition import Transition
+from driver.Transition import Transition
 
 ring = RingController(0, debug = True)
 ring.reset(r=0, g=0, b=0)

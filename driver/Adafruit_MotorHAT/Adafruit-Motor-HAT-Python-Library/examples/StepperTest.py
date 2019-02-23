@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_Stepper
-from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
+from driver.Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
 
 import time
 import atexit

@@ -1,15 +1,10 @@
 #!/usr/bin/python
-import sys
-import atexit
-import struct
 import math
 import numpy as np
-from Transition import Transition
+from driver.Transition import Transition
 import random
 import time
-import sys
-import threading
-from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
+from driver.Adafruit_MotorHAT import Adafruit_MotorHAT
 import RPi.GPIO as GPIO
 POSITION_MAX = 450
 GRANULARITY = 0.1

@@ -1,11 +1,10 @@
   #!/usr/bin/python
 #import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_Stepper
-from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
-import RPi.GPIO as GPIO
+from driver.Adafruit_MotorHAT import Adafruit_MotorHAT
+  import RPi.GPIO as GPIO
 from serial import *
 import time
-import sys
-import atexit
+  import atexit
 import struct
 
 NUM_EIR = 10

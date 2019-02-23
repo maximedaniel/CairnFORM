@@ -1,12 +1,11 @@
-from Ring import Ring
+from driver.Ring import Ring
 import threading
 import random
-import time
-from Transition import Transition
+from driver.Transition import Transition
 from Tkinter import *
 from colour import Color
-from LightController import LightController
-from MotionController import MotionController
+from driver.LightController import LightController
+from driver.MotionController import MotionController
 import RPi.GPIO as GPIO
 import numpy as np
 
