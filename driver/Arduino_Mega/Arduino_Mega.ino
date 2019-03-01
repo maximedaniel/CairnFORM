@@ -6,22 +6,19 @@
 #endif
 
 #define NUMPIXELS        6
-#define PWM_SIZE         15
-#define PWM_0            2
-#define PWM_1            3
-#define PWM_2            4
-#define PWM_3            5
-#define PWM_4            6
-#define PWM_5            7
-#define PWM_6            8
-#define PWM_7            9
-#define PWM_8            10
-#define PWM_9            11
-#define PWM_10           12
-#define PWM_11           13
-#define PWM_12           44
-#define PWM_13           45
-#define PWM_14           46
+#define PWM_SIZE         12
+#define PWM_0            13
+#define PWM_1            12
+#define PWM_2            11
+#define PWM_3            10
+#define PWM_4            9
+#define PWM_5            8
+#define PWM_6            7
+#define PWM_7            6
+#define PWM_8            5
+#define PWM_9            4
+#define PWM_10           3
+#define PWM_11           2
 
 
 // Parameter 1 = number of pixels in strip
@@ -45,10 +42,7 @@ Adafruit_NeoPixel pixels [PWM_SIZE] = {
     Adafruit_NeoPixel(NUMPIXELS, PWM_8, NEO_GRB + NEO_KHZ800),
     Adafruit_NeoPixel(NUMPIXELS, PWM_9, NEO_GRB + NEO_KHZ800),
     Adafruit_NeoPixel(NUMPIXELS, PWM_10, NEO_GRB + NEO_KHZ800),
-    Adafruit_NeoPixel(NUMPIXELS, PWM_11, NEO_GRB + NEO_KHZ800),
-    Adafruit_NeoPixel(NUMPIXELS, PWM_12, NEO_GRB + NEO_KHZ800),
-    Adafruit_NeoPixel(NUMPIXELS, PWM_13, NEO_GRB + NEO_KHZ800),
-    Adafruit_NeoPixel(NUMPIXELS, PWM_14, NEO_GRB + NEO_KHZ800)
+    Adafruit_NeoPixel(NUMPIXELS, PWM_11, NEO_GRB + NEO_KHZ800)
 };
 
 int SIZE_PACKAGE = 4;
