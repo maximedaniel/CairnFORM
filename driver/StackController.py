@@ -1,5 +1,4 @@
 import threading
-
 from RingController import RingController
 from LightController import LightController
 from MotionController import MotionController
@@ -7,13 +6,12 @@ from MotionController import MotionController
 
 class StackController:
 
-    def __init__(self, size):
-        self.size = size
+    def __init__(self):
         self.rlock = threading.RLock()
         self.light = LightController()
         self.motion = MotionController()
         self.rings = []
-        for address in range(size):
+        for address in range(len(self.motion.switches)):
             self.rings.append(RingController(address, self.rlock, self.light, self.motion))
 
     def push(self, instruction):

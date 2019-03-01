@@ -6,7 +6,7 @@
 import time
 import atexit
 
-from driver.Adafruit_MotorHAT import Adafruit_MotorHAT
+from Adafruit_MotorHAT import Adafruit_MotorHAT
 
 
 class Robot(object):

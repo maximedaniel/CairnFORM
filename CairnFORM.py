@@ -8,7 +8,7 @@ from CUI import CUI
 class CairnFORM:
 
     def __init__(self):
-        self.stack = StackController(size=2)
+        self.stack = StackController()
         try:
             self.cui = CUI(self.stack)
         except (KeyboardInterrupt, SystemExit):

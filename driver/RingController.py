@@ -18,7 +18,6 @@ class RingController:
         # Thread
         self.thread = threading.Thread(target=self.run, args=[self.rlock])
 
-
         # states
         self.s = [0, 0, 0, 0]
         self.delay_completion = 0

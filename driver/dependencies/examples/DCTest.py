@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from driver.Adafruit_MotorHAT import Adafruit_MotorHAT
+from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 
 import time
 import atexit
