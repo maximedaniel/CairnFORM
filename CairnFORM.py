@@ -1,15 +1,14 @@
 from random import *
 import paho.mqtt.client as mqtt
-from StackController import StackController
+from driver.StackController import StackController
 import json
 from CUI import CUI
-from collections import defaultdict
 
 
 class CairnFORM:
 
     def __init__(self):
-        self.stack = StackController()
+        self.stack = StackController(size=2)
         try:
             self.cui = CUI(self.stack)
         except (KeyboardInterrupt, SystemExit):

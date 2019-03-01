@@ -4,18 +4,25 @@
 #ifdef __AVR__
   #include <avr/power.h>
 #endif
+
 #define NUMPIXELS        6
-#define EIR_NB           10
-#define EIR_0            2
-#define EIR_1            3
-#define EIR_2            4
-#define EIR_3            5
-#define EIR_4            6
-#define EIR_5            7
-#define EIR_6            8
-#define EIR_7            9
-#define EIR_8            10
-#define EIR_9            11
+#define PWM_SIZE         15
+#define PWM_0            2
+#define PWM_1            3
+#define PWM_2            4
+#define PWM_3            5
+#define PWM_4            6
+#define PWM_5            7
+#define PWM_6            8
+#define PWM_7            9
+#define PWM_8            10
+#define PWM_9            11
+#define PWM_10           12
+#define PWM_11           13
+#define PWM_12           44
+#define PWM_13           45
+#define PWM_14           46
+
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -25,16 +32,24 @@
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
-Adafruit_NeoPixel pixels [EIR_NB] = {Adafruit_NeoPixel(NUMPIXELS, EIR_0, NEO_GRB + NEO_KHZ800),
-Adafruit_NeoPixel(NUMPIXELS, EIR_1, NEO_GRB + NEO_KHZ800),
-Adafruit_NeoPixel(NUMPIXELS, EIR_2, NEO_GRB + NEO_KHZ800),
-Adafruit_NeoPixel(NUMPIXELS, EIR_3, NEO_GRB + NEO_KHZ800),
-Adafruit_NeoPixel(NUMPIXELS, EIR_4, NEO_GRB + NEO_KHZ800),
-Adafruit_NeoPixel(NUMPIXELS, EIR_5, NEO_GRB + NEO_KHZ800),
-Adafruit_NeoPixel(NUMPIXELS, EIR_6, NEO_GRB + NEO_KHZ800),
-Adafruit_NeoPixel(NUMPIXELS, EIR_7, NEO_GRB + NEO_KHZ800),
-Adafruit_NeoPixel(NUMPIXELS, EIR_8, NEO_GRB + NEO_KHZ800),
-Adafruit_NeoPixel(NUMPIXELS, EIR_9, NEO_GRB + NEO_KHZ800)};
+
+Adafruit_NeoPixel pixels [PWM_SIZE] = {
+    Adafruit_NeoPixel(NUMPIXELS, PWM_0, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_1, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_2, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_3, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_4, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_5, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_6, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_7, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_8, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_9, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_10, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_11, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_12, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_13, NEO_GRB + NEO_KHZ800),
+    Adafruit_NeoPixel(NUMPIXELS, PWM_14, NEO_GRB + NEO_KHZ800)
+};
 
 int SIZE_PACKAGE = 4;
 
@@ -55,7 +70,7 @@ void setup() {
 #endif
   // End of trinket special code
 
-  for(int j=0;j<EIR_NB;j++){
+  for(int j=0;j<PWM_SIZE;j++){
       pixels[j].begin(); // This initializes the NeoPixel library.
   }
 }
@@ -65,7 +80,7 @@ void loop() {
    char package[SIZE_PACKAGE];
   while (Serial.available() > SIZE_PACKAGE - 1) {
     Serial.readBytes(package, SIZE_PACKAGE);
-    if(package[0] >= 0 && package[0]<=9){
+    if(package[0] >= 0 && package[0]<PWM_SIZE){
       for(int i = 0; i < NUMPIXELS; i++){
         pixels[package[0]].setPixelColor(i, pixels[package[0]].Color(package[1], package[2], package[3]));
       }
