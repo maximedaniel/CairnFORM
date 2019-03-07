@@ -6,7 +6,7 @@ import RPi.GPIO as GPIO
 
 class MotionController:
     MAX_TIME = 10 #seconds
-    hats = [0x61, 0x62, 0x63, 0x64, 0x65, 0x66]
+    hats = [0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67]
     switches = [4, 17, 18, 27, 22, 23, 24,  5,  6, 12, 13, 16]
     
     @staticmethod
@@ -16,14 +16,16 @@ class MotionController:
     def __init__(self):
         self.hats = []
         self.switches = []
-        # Detect hats
         GPIO.setmode(GPIO.BCM)
+        # Detect plugged hats
         for index, hat in enumerate(MotionController.hats):
             try:
                 motor_hat = self.hats.append(Adafruit_MotorHAT(hat))
-                
-                # First motor test
-                
+            except:
+                print('An error occured while processing Adafruit_MotorHAT at I2C address ' + str(hat))
+
+        for index, motor_hat in enumerate(self.hats):
+            try:
                 motor1 = motor_hat.getStepper(200, 1)
                 motor1.setSpeed(30)
                 switch1 = MotionController.switches[index * 2]
