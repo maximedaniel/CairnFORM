@@ -65,7 +65,8 @@ class MotionController:
                 elapse = time.time() - start
             if elapse < MotionController.MAX_TIME:
                 self.positions[address] = 0
-            hat.getMotor(port).run(Adafruit_MotorHAT.RELEASE)
+            hat.getMotor((port-1) * port + 1).run(Adafruit_MotorHAT.RELEASE)
+            hat.getMotor((port-1) * port + 2).run(Adafruit_MotorHAT.RELEASE)
     
     def reset(self, address):
         # if motor position unknow do nothing
