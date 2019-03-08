@@ -11,8 +11,13 @@ class StackController:
         self.light = LightController()
         self.motion = MotionController()
         self.rings = []
-        for address in range(len(self.motion.switch_maps)):
+        for address in range(len(self.motion.maps)):
             self.rings.append(RingController(address, self.rlock, self.light, self.motion))
-
+        self.reset()
+        
+    def reset(self):
+        for address in range(len(self.rings)):
+            self.rings[address].reset()
+        
     def push(self, instruction):
         self.rings[instruction[0]].push(instruction[1:])

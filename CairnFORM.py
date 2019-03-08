@@ -18,7 +18,7 @@ class CairnFORM:
         #self.mqtt.on_connect = self.on_connect
         #self.mqtt.connect("test.mosquitto.org", 1883, 60)
         #self.mqtt.loop_forever()
-        self.test()
+        #self.test()
     
     def test(self):
         instructions = [[] for i in range(randrange(1, 2))]
@@ -39,7 +39,6 @@ class CairnFORM:
             instructions[i] = [randrange(len(self.stack.rings)), randrange(255), randrange(255), randrange(255), randrange(100), randrange(5)+1, randrange(5)+1, 'EASE_IN_OUT_QUINT']
 
         payload = {'instructions':instructions}
-        print(instructions)
         self.mqtt.publish("mqtt/cairnform", json.dumps(payload))
 
     def process(self, client, userdata, msg):
