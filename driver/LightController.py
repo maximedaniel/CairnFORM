@@ -12,7 +12,8 @@ class LightController:
     def set(self, address, r, g, b):
             if self.arduino.isOpen():
                 self.arduino.flush() 
-                package = [address, r, g, b]
+                package = [address, int(r), int(g), int(b)]
+                print('writing ', package)
                 for i in package:
                     self.arduino.write(struct.pack('B', i))
             else:

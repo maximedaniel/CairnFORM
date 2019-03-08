@@ -47,12 +47,14 @@ class RingController:
                 s_current = Transition.transition(mode, elapse_time, 0, s_diff, duration)
                 s_next = Transition.transition(mode, elapse_time + RingController.FREQ, 0, s_diff, duration)
                 s_delta = s_next - s_current
-
+                print(s_delta)
                 # Calling controllers
                 rlock.acquire()
                 self.s += s_delta
+                print(self.s)
                 self.light.set(self.address, self.s[0], self.s[1], self.s[2])
-                self.motion.set(self.address, self.s[3], RingController.FREQ)
+                time.sleep(1)
+                #self.motion.set(self.address, self.s[3], RingController.FREQ)
                 self.duration_completion = int(elapse_time / duration * 100) if duration else 0
                 #time.sleep(RingController.FREQ)
                 rlock.release()

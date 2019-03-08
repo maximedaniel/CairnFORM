@@ -7,7 +7,10 @@ import RPi.GPIO as GPIO
 class MotionController:
     MAX_TIME = 10 #seconds
     hats = [0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67]
-    switches = [4, 17, 18, 27, 22, 23, 24,  5,  6, 12, 13, 16]
+    #switches = [4, 17, 18, 27, 22, 23, 24,  5,  6, 12, 13, 16]
+    #hats = [0x66, 0x67]
+    switches =  [21,19, 20, 16, 13,  6, 12, 5, 25, 23, 24, 22]
+    maps = [0,  2,  1,  3,  4,  6,  5, 7,  8, 10,  9, 11]
     
     @staticmethod
     def rpm(duration, steps):
@@ -15,15 +18,15 @@ class MotionController:
 
     def __init__(self):
         self.hats = []
-        self.switches = []
+        self.switch_maps = []
         GPIO.setmode(GPIO.BCM)
         # Detect plugged hats
         for index, hat in enumerate(MotionController.hats):
             try:
-                motor_hat = self.hats.append(Adafruit_MotorHAT(hat))
+                self.hats.append(Adafruit_MotorHAT(hat))
             except:
                 print('An error occured while processing Adafruit_MotorHAT at I2C address ' + str(hat))
-
+        print(self.hats)
         for index, motor_hat in enumerate(self.hats):
             try:
                 motor1 = motor_hat.getStepper(200, 1)
@@ -31,14 +34,13 @@ class MotionController:
                 switch1 = MotionController.switches[index * 2]
                 GPIO.setup(switch1, GPIO.IN)
                 start = time.time()
-                elapse = start
-                print(switch1)
+                elapse = time.time() - start
                 while elapse < MotionController.MAX_TIME and GPIO.input(switch1) == 0:
                     motor1.step(5, Adafruit_MotorHAT.BACKWARD,  Adafruit_MotorHAT.DOUBLE)
                     elapse = time.time() - start
                 if elapse < MotionController.MAX_TIME:
                     print('Switch ', switch1, ' answered to motor ', hat, ':', 1)
-                    self.switches.append(switch1)
+                    self.switch_maps.append(MotionController.maps[index * 2])
                 else :
                     print('Switch ', switch1, ' did not answered to motor ', hat, ':', 1)
                 motor_hat.getMotor(1).run(Adafruit_MotorHAT.RELEASE)
@@ -50,13 +52,13 @@ class MotionController:
                 switch2 = MotionController.switches[index * 2 + 1]
                 GPIO.setup(switch2, GPIO.IN)
                 start = time.time()
-                elapse = start
+                elapse = time.time() - start 
                 while elapse < MotionController.MAX_TIME and GPIO.input(switch2) == 0:
                     motor2.step(5, Adafruit_MotorHAT.BACKWARD,  Adafruit_MotorHAT.DOUBLE)
                     elapse = time.time() - start
                 if elapse < MotionController.MAX_TIME:
                     print('Switch ', switch2, ' answered to motor ', hat, ':', 2)
-                    self.switches.append(switch2)
+                    self.switch_maps.append(MotionController.maps[index * 2] + 1)
                 else :
                     print('Switch ', switch2, ' did not answered to motor ', hat, ':', 2)
                 motor_hat.getMotor(2).run(Adafruit_MotorHAT.RELEASE)
@@ -68,7 +70,8 @@ class MotionController:
 
     #TODO add ring autodetection
     def reset(self):
-        for (address, switch) in enumerate(self.switches):
+        for (address, switch_map) in enumerate(self.switch_maps):
+            switch = MotionController.switches[switch_map]
             port = int(address % 2)
             hat = self.hats[port]
             motor = hat.getStepper(200, port + 1)

@@ -9,16 +9,26 @@ class CairnFORM:
 
     def __init__(self):
         self.stack = StackController()
-        try:
-            self.cui = CUI(self.stack)
-        except (KeyboardInterrupt, SystemExit):
-            print('\n! Received keyboard interrupt, quitting threads.\n')
+        #try:
+        #    self.cui = CUI(self.stack)
+        #except (KeyboardInterrupt, SystemExit):
+        #    print('\n! Received keyboard interrupt, quitting threads.\n')
 
-        self.mqtt = mqtt.Client("CairnFORM")
-        self.mqtt.on_connect = self.on_connect
-        self.mqtt.connect("test.mosquitto.org", 1883, 60)
-        self.mqtt.loop_forever()
-
+        #self.mqtt = mqtt.Client("CairnFORM")
+        #self.mqtt.on_connect = self.on_connect
+        #self.mqtt.connect("test.mosquitto.org", 1883, 60)
+        #self.mqtt.loop_forever()
+        self.test()
+    
+    def test(self):
+        instructions = [[] for i in range(randrange(1, 2))]
+        for i in range(len(instructions)):
+            instructions[i] = [randrange(len(self.stack.rings)), randrange(255), randrange(255), randrange(255), randrange(100), randrange(5)+1, randrange(5)+1, 'EASE_IN_OUT_QUINT']
+        
+        for instruction in instructions:
+            print("sending ", instruction)
+            self.stack.push(instruction)
+            
     def on_connect(self, client, userdata, flags, rc):
         print("Connected with result code "+str(rc))
         self.mqtt.subscribe("mqtt/cairnform")
@@ -29,11 +39,6 @@ class CairnFORM:
             instructions[i] = [randrange(len(self.stack.rings)), randrange(255), randrange(255), randrange(255), randrange(100), randrange(5)+1, randrange(5)+1, 'EASE_IN_OUT_QUINT']
 
         payload = {'instructions':instructions}
-        #for index, ring in enumerate(self.stack.rings):
-        #   payload[str(index)] = {'from': [], 'target': [], 'transition': []}
-        #   payload[str(index)]['from'] = [randrange(255), randrange(255), randrange(255), randrange(100)]
-        #   payload[str(index)]['target'] = [randrange(255), randrange(255), randrange(255), randrange(100)]
-        #   payload[str(index)]['with'] = [randrange(5)+1, randrange(5)+1, 'EASE_IN_OUT_QUINT']
         print(instructions)
         self.mqtt.publish("mqtt/cairnform", json.dumps(payload))
 
