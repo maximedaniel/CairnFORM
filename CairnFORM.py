@@ -14,10 +14,12 @@ class CairnFORM:
         #except (KeyboardInterrupt, SystemExit):
         #    print('\n! Received keyboard interrupt, quitting threads.\n')
 
-        #self.mqtt = mqtt.Client("CairnFORM")
-        #self.mqtt.on_connect = self.on_connect
-        #self.mqtt.connect("test.mosquitto.org", 1883, 60)
-        #self.mqtt.loop_forever()
+        self.mqtt = mqtt.Client("CairnFORM")
+        self.mqtt.on_connect = self.on_connect
+        self.mqtt.on_disconnect = self.on_disconnect
+
+        self.mqtt.connect("mqtt.estia.fr", 1883, 60)
+        self.mqtt.loop_forever()
         #self.test()
     
     def test(self):
@@ -31,15 +33,18 @@ class CairnFORM:
             
     def on_connect(self, client, userdata, flags, rc):
         print("Connected with result code "+str(rc))
-        self.mqtt.subscribe("mqtt/cairnform")
-        self.mqtt.message_callback_add("mqtt/cairnform", self.process)
+        self.mqtt.subscribe(self.name)
+        self.mqtt.message_callback_add(self.name, self.process)
 
         instructions = [[] for i in range(randrange(10, 20))]
         for i in range(len(instructions)):
             instructions[i] = [randrange(len(self.stack.rings)), randrange(255), randrange(255), randrange(255), randrange(100), randrange(5)+1, randrange(5)+1, 'EASE_IN_OUT_QUINT']
 
         payload = {'instructions':instructions}
-        self.mqtt.publish("mqtt/cairnform", json.dumps(payload))
+        self.mqtt.publish(self.name, json.dumps(payload))
+
+    def on_disconnect(self, client, userdata, rc):
+        print("Disconnected with result code "+str(rc))
 
     def process(self, client, userdata, msg):
         try:

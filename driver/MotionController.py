@@ -19,12 +19,13 @@ class MotionController:
         self.maps = {}
         GPIO.setmode(GPIO.BCM)
         # Detect plugged hats
-        for index, hat in enumerate(MotionController.hats):
+        for hat in list(MotionController.hats):
             try:
                 self.hats.append(Adafruit_MotorHAT(hat))
             except:
+                MotionController.hats.remove(hat)
                 print('An error occured while processing Adafruit_MotorHAT at I2C address ' + str(hat))
-        print(self.hats)
+
         for index, motor_hat in enumerate(self.hats):
             try:
                 for port in range(2):
@@ -49,7 +50,7 @@ class MotionController:
         self.positions = [ 0 for x in range(len(self.maps))]
         print(self.maps)
 
-    #TODO add ring autodetection
+
     def reset(self):
         for address in self.maps:
             switch, hat, port = self.maps[address]

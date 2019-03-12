@@ -10,6 +10,7 @@ class StackController:
         self.rlock = threading.RLock()
         self.light = LightController()
         self.motion = MotionController()
+        self.name = 'CairnFORM:'+ ":".join("{:02x}".format(hat) for hat in MotionController.hats)
         self.rings = []
         for address in range(len(self.motion.maps)):
             self.rings.append(RingController(address, self.rlock, self.light, self.motion))
