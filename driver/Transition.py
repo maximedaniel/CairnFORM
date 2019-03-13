@@ -267,3 +267,73 @@ class Transition:
 
         if mode == cls.EASE_IN_OUT_CIRC:
             return cls.easeInOutCirc(t, b, c, d)
+
+    @classmethod
+    def isMode(cls, mode):
+        if mode == cls.LINEAR:
+            return True
+
+        if mode == cls.EASE_IN_QUAD:
+            return True
+
+        if mode == cls.EASE_OUT_QUAD:
+            return True
+
+        if mode == cls.EASE_IN_OUT_QUAD:
+            return True
+
+        if mode == cls.EASE_IN_CUBIC:
+            return True
+
+        if mode == cls.EASE_OUT_CUBIC:
+            return True
+
+        if mode == cls.EASE_IN_OUT_CUBIC:
+            return True
+
+        if mode == cls.EASE_IN_QUART:
+            return True
+
+        if mode == cls.EASE_OUT_QUART:
+            return True
+
+        if mode == cls.EASE_IN_OUT_QUART:
+            return True
+
+        if mode == cls.EASE_IN_QUINT:
+            return True
+
+        if mode == cls.EASE_OUT_QUINT:
+            return True
+
+        if mode == cls.EASE_IN_OUT_QUINT:
+            return True
+
+        if mode == cls.EASE_IN_SINE:
+            return True
+
+        if mode == cls.EASE_OUT_SINE:
+            return True
+
+        if mode == cls.EASE_IN_OUT_SINE:
+            return True
+
+        if mode == cls.EASE_IN_EXPO:
+            return True
+
+        if mode == cls.EASE_OUT_EXPO:
+            return True
+
+        if mode == cls.EASE_IN_OUT_EXPO:
+            return True
+
+        if mode == cls.EASE_IN_CIRC:
+            return True
+
+        if mode == cls.EASE_OUT_CIRC:
+            return True
+
+        if mode == cls.EASE_IN_OUT_CIRC:
+            return True
+
+        return False

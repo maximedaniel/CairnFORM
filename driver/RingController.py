@@ -27,6 +27,7 @@ class RingController:
     def reset(self):
         self.light.reset(self.address)
         self.motion.reset(self.address)
+        self.s = [0, 0, 0, 0]
         
     def push(self, instruction):
         self.instructions.append(instruction)

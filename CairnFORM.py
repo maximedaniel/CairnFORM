@@ -53,21 +53,28 @@ class CairnFORM:
             m_in = json.loads(m_decode)  # decode json data
             instructions = m_in['instructions']
             for instruction in instructions:
+                    address = instruction[0]
+                    target = instruction[1:5]
+                    delay, duration, mode = instruction[5:]
+
+                    if not (0 <= address < len(self.stack.rings)):
+                        raise Exception("assertion failed for  (0 <= address < "+len(self.stack.rings)+")")
+
+                    if not (0 <= target[0] <= 255 and 0 <= target[1] <= 255  and 0 <= target[2] <= 255 and 0 <= target[3] <= 100):
+                        raise Exception("assertion failed for (0 <= red <= 255 and 0 <= green <= 255  and 0 <= blue <= 255 and 0 <= position <= 100)")
+
+                    if not (0 <= delay):
+                        raise Exception("assertion failed for (0 <= delay)")
+
+                    if not (0 <= duration):
+                        raise Exception("assertion failed for (0 <= duration)")
+
+                    if not Transition.isMode(mode):
+                        raise Exception("assertion failed for (Transition.isMode(mode))")
+
                     self.stack.push(instruction)
-                    # s_address = int(header)
-                    # c_address = (0 <= s_address < len(self.stack.rings))
-                    # s_from = body['from']
-                    # c_from = (0 <= s_from[0] <= 255 and 0 <= s_from[1] <= 255  and 0 <= s_from[2] <= 255 and 0 <= s_from[3] <= 100)
-                    # s_to = body['to']
-                    # c_to = (0 <= s_to[0] <= 255 and 0 <= s_to[1] <= 255  and 0 <= s_to[2] <= 255 and 0 <= s_to[3] <= 100)
-                    # s_with = body['with']
-                    # c_with = (s_with[0] >= 0 and s_with[1] > 0 and isinstance(s_with[2], str))
-                    # if c_address and c_from and c_to and c_with:
-                    #     self.stack.setMorph(s_address, s_from, s_to, s_with)
-                    # else :
-                    #     print('[ERROR] json with bad structure')
         except Exception as ex:
-            print('[ERROR]', ex)
+            print(ex)
             pass
 
 
