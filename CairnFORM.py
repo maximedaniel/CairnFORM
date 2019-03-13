@@ -1,6 +1,7 @@
 from random import *
 import paho.mqtt.client as mqtt
 from driver.StackController import StackController
+from driver.Transition import Transition
 import json
 from CUI import CUI
 
@@ -33,15 +34,17 @@ class CairnFORM:
             
     def on_connect(self, client, userdata, flags, rc):
         print("Connected with result code "+str(rc))
-        self.mqtt.subscribe(self.name)
-        self.mqtt.message_callback_add(self.name, self.process)
+        print('subscribing to: ', self.stack.name) 
+        self.mqtt.subscribe(self.stack.name)
+        print('subscribed to: ', self.stack.name) 
+        self.mqtt.message_callback_add(self.stack.name, self.process)
 
-        instructions = [[] for i in range(randrange(10, 20))]
-        for i in range(len(instructions)):
-            instructions[i] = [randrange(len(self.stack.rings)), randrange(255), randrange(255), randrange(255), randrange(100), randrange(5)+1, randrange(5)+1, 'EASE_IN_OUT_QUINT']
+        #instructions = [[] for i in range(randrange(10, 20))]
+        #for i in range(len(instructions)):
+        #    instructions[i] = [randrange(len(self.stack.rings)), randrange(255), randrange(255), randrange(255), randrange(100), randrange(5)+1, randrange(5)+1, 'EASE_IN_OUT_QUINT']
 
-        payload = {'instructions':instructions}
-        self.mqtt.publish(self.name, json.dumps(payload))
+        #payload = {'instructions':instructions}
+        #self.mqtt.publish(self.name, json.dumps(payload))
 
     def on_disconnect(self, client, userdata, rc):
         print("Disconnected with result code "+str(rc))
