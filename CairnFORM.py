@@ -3,6 +3,7 @@ import paho.mqtt.client as mqtt
 from driver.StackController import StackController
 from driver.Transition import Transition
 import json
+from pprint import pprint
 from CUI import CUI
 
 
@@ -16,6 +17,8 @@ class CairnFORM:
         #    print('\n! Received keyboard interrupt, quitting threads.\n')
 
         self.mqtt = mqtt.Client("CairnFORM")
+        self.topic_desc = self.stack.name + "/desc"
+        self.topic_input = self.stack.name + "/input"
         self.mqtt.on_connect = self.on_connect
         self.mqtt.on_disconnect = self.on_disconnect
 
@@ -29,15 +32,17 @@ class CairnFORM:
             instructions[i] = [randrange(len(self.stack.rings)), randrange(255), randrange(255), randrange(255), randrange(100), randrange(5)+1, randrange(5)+1, 'EASE_IN_OUT_QUINT']
         
         for instruction in instructions:
-            print("sending ", instruction)
             self.stack.push(instruction)
-            
+
+                   
     def on_connect(self, client, userdata, flags, rc):
         print("Connected with result code "+str(rc))
-        print('subscribing to: ', self.stack.name) 
-        self.mqtt.subscribe(self.stack.name)
-        print('subscribed to: ', self.stack.name) 
-        self.mqtt.message_callback_add(self.stack.name, self.process)
+        self.mqtt.subscribe(self.topic_desc)
+        print("Subscribed to ", self.topic_desc)
+        self.mqtt.message_callback_add(self.topic_desc, self.description)
+        self.mqtt.subscribe(self.topic_input)
+        print("Subscribed to ", self.topic_input)
+        self.mqtt.message_callback_add(self.topic_input, self.process)
 
         #instructions = [[] for i in range(randrange(10, 20))]
         #for i in range(len(instructions)):
@@ -49,6 +54,16 @@ class CairnFORM:
     def on_disconnect(self, client, userdata, rc):
         print("Disconnected with result code "+str(rc))
 
+    def description(self, client, userdata, msg):
+        #pprint(vars(client))
+        if client._client_id != self.mqtt._client_id:
+            payload = {
+            'description':'Stack of expandable illuminated ring by Maxime DANIEL',
+            'input': "instructions:[[address(0..N), red(0..255), green(0..255), blue(0..255), position(0..200), delay(0..*), duration(0..*), transition(String)], ..]"
+                }
+            print(payload)
+            self.mqtt.publish(self.topic_desc, json.dumps(payload))
+            
     def process(self, client, userdata, msg):
         try:
             print(msg.payload)
@@ -63,8 +78,8 @@ class CairnFORM:
                     if not (0 <= address < len(self.stack.rings)):
                         raise Exception("assertion failed for  (0 <= address < "+len(self.stack.rings)+")")
 
-                    if not (0 <= target[0] <= 255 and 0 <= target[1] <= 255  and 0 <= target[2] <= 255 and 0 <= target[3] <= 100):
-                        raise Exception("assertion failed for (0 <= red <= 255 and 0 <= green <= 255  and 0 <= blue <= 255 and 0 <= position <= 100)")
+                    if not (0 <= target[0] <= 255 and 0 <= target[1] <= 255  and 0 <= target[2] <= 255 and 0 <= target[3] <= 200):
+                        raise Exception("assertion failed for (0 <= red <= 255 and 0 <= green <= 255  and 0 <= blue <= 255 and 0 <= position <= 200)")
 
                     if not (0 <= delay):
                         raise Exception("assertion failed for (0 <= delay)")

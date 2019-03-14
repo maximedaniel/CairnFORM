@@ -68,7 +68,7 @@ class MotionController:
             hat.getMotor((port-1) * port + 1).run(Adafruit_MotorHAT.RELEASE)
             hat.getMotor((port-1) * port + 2).run(Adafruit_MotorHAT.RELEASE)
     
-    def reset(self, address):
+    def reset(self, rlock, address):
         # if motor position unknow do nothing
         if self.positions[address] < 0:
             return
@@ -83,9 +83,14 @@ class MotionController:
         GPIO.setup(switch, GPIO.IN)
         while GPIO.input(switch) == 0:
             motor.step(5, Adafruit_MotorHAT.BACKWARD,  Adafruit_MotorHAT.DOUBLE)
-        hat.getMotor(port).run(Adafruit_MotorHAT.RELEASE)
         
-    def set(self, address, position, duration):
+        rlock.acquire()    
+        hat.getMotor((port-1) * port + 1).run(Adafruit_MotorHAT.RELEASE)
+        hat.getMotor((port-1) * port + 2).run(Adafruit_MotorHAT.RELEASE)
+        rlock.release()
+
+               
+    def set(self, rlock, address, position, duration):
         # if motor position unknow do nothing
         if self.positions[address] < 0:
             return
@@ -114,7 +119,10 @@ class MotionController:
         motor.setSpeed(speed)
         motor.step(steps, direction, Adafruit_MotorHAT.DOUBLE)
         self.positions[address] = position
-        hat.getMotor(port).run(Adafruit_MotorHAT.RELEASE)
+        rlock.acquire()    
+        hat.getMotor((port-1) * port + 1).run(Adafruit_MotorHAT.RELEASE)
+        hat.getMotor((port-1) * port + 2).run(Adafruit_MotorHAT.RELEASE)
+        rlock.release()
 
 
 
