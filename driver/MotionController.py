@@ -106,14 +106,17 @@ class MotionController:
         if not duration:
             return
         
+        steps = position - self.positions[address]
+        
+        if steps == 0:
+            time.sleep(duration)
+            return
+        
         if position == 0:
             self.reset(rlock, address)
             return
             
-        steps = position - self.positions[address]
-        if steps == 0:
-            time.sleep(duration)
-            return
+        
             
         direction = Adafruit_MotorHAT.FORWARD if (steps > 0) else Adafruit_MotorHAT.BACKWARD
         steps = abs(steps)
