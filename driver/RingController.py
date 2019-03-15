@@ -8,7 +8,7 @@ np.set_printoptions(precision=3)
 
 
 class RingController:
-    FREQ = 0.1
+    FREQ = 0.2
 
     def __init__(self, address, rlock, light, motion):
         # props
@@ -89,12 +89,16 @@ class RingController:
                 self.s[3] = np.clip(self.s[3], 0., 200.)
                 self.light.set(rlock, self.address, int(self.s[0]), int(self.s[1]), int(self.s[2]))
                 self.motion.set(rlock, self.address, int(self.s[3]), RingController.FREQ)
-                self.duration_completion = int(time_range[i] / duration * 100) if duration else 0
                 i = i + 1
                 if i >= len(time_range):
                     break
                 s_current = Transition.transition(mode, time_range[i], 0, s_diff_abs, duration)
                 s_current *= s_diff_sign
+                
+            #self.s = target
+            #self.light.set(rlock, self.address, int(self.s[0]), int(self.s[1]), int(self.s[2]))
+            #self.motion.set(rlock, self.address, int(self.s[3]), RingController.FREQ)
+            
 
 
 

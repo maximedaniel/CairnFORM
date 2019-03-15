@@ -100,12 +100,16 @@ class MotionController:
             return
         
         # if motor position targeted not in range do nothinh
-        if not (0 < position < 200):
+        if not (0 <= position <= 200):
             return
         
         if not duration:
             return
         
+        if position == 0:
+            self.reset(rlock, address)
+            return
+            
         steps = position - self.positions[address]
         
         if not steps:
@@ -117,9 +121,10 @@ class MotionController:
         switch, hat, port = self.maps[address]
         motor = hat.getStepper(200, port)
         motor.setSpeed(speed)
-        motor.step(steps, direction, Adafruit_MotorHAT.DOUBLE)
+        motor.step(steps, direction, Adafruit_MotorHAT.MICROSTEP)
         self.positions[address] = position
-        rlock.acquire()    
+        
+        rlock.acquire()   
         hat.getMotor((port-1) * port + 1).run(Adafruit_MotorHAT.RELEASE)
         hat.getMotor((port-1) * port + 2).run(Adafruit_MotorHAT.RELEASE)
         rlock.release()
