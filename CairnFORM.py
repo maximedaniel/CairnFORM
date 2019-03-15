@@ -5,6 +5,8 @@ from driver.Transition import Transition
 import json
 from pprint import pprint
 from CUI import CUI
+from netifaces import AF_INET, AF_INET6, AF_LINK, AF_PACKET, AF_BRIDGE
+import netifaces as ni
 
 
 class CairnFORM:
@@ -36,6 +38,12 @@ class CairnFORM:
     def on_disconnect(self, client, userdata, rc):
         print("Disconnected with result code "+str(rc))
 
+    def output(self, msg):
+        addr = ni.ifaddresses('eth0')[AF_INET][0]['addr'] or ni.ifaddresses('l0')[AF_INET][0]['addr']
+        payload = {'vnc': addr, 'message': msg}
+        self.mqtt.publish(self.topic_output, json.dumps(payload))
+        
+        
     #payload = {
     # 'description':'Stack of expandable illuminated ring by Maxime DANIEL',
     # 'input': "instructions:[[address(0..N), red(0..255), green(0..255), blue(0..255), position(0..200), delay(0..*), duration(0..*), transition(String)], ..]"
@@ -70,9 +78,9 @@ class CairnFORM:
                         raise Exception("assertion failed for (Transition.isMode(mode))")
 
                     self.stack.push(instruction)
-            self.mqtt.publish(self.topic_output, 'OK')
+            self.output("ok")
         except Exception as ex:
-            self.mqtt.publish(self.topic_output, str(ex))
+            self.output(str(ex))
             pass
 
 
