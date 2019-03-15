@@ -111,9 +111,9 @@ class MotionController:
             return
             
         steps = position - self.positions[address]
-        
-        if not steps:
-            return 0
+        if steps == 0:
+            time.sleep(duration)
+            return
             
         direction = Adafruit_MotorHAT.FORWARD if (steps > 0) else Adafruit_MotorHAT.BACKWARD
         steps = abs(steps)
@@ -121,7 +121,7 @@ class MotionController:
         switch, hat, port = self.maps[address]
         motor = hat.getStepper(200, port)
         motor.setSpeed(speed)
-        motor.step(steps, direction, Adafruit_MotorHAT.MICROSTEP)
+        motor.step(steps, direction, Adafruit_MotorHAT.INTERLEAVE)
         self.positions[address] = position
         
         rlock.acquire()   
