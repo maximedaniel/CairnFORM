@@ -6,8 +6,8 @@ import RPi.GPIO as GPIO
 
 class MotionController:
     MAX_TIME = 10 #seconds
-    hats = [0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67]
-    switches =  [21,19, 20, 16, 13,  6, 12, 5, 25, 23, 24, 22]
+    hats = [0x61, 0x62, 0x63, 0x64, 0x65, 0x66 ]
+    switches = [21, 19, 20, 16, 13,  6, 12, 5, 25, 24, 23, 22]
     addresses = [0,  2,  1,  3,  4,  6,  5, 7,  8, 10,  9, 11]
     
     @staticmethod
@@ -39,10 +39,10 @@ class MotionController:
                         motor.step(5, Adafruit_MotorHAT.BACKWARD,  Adafruit_MotorHAT.DOUBLE)
                         elapse = time.time() - start
                     if elapse < MotionController.MAX_TIME:
-                        print('Switch ', switch, ' answered to motor ', hat, ':', port)
+                        print('Index ', index, 'Switch ', switch, ' answered to motor ', hat, ':', port)
                         self.maps[self.addresses[index * 2 + port]] = [switch, motor_hat, port + 1]
                     else :
-                        print('Switch ', switch, ' did not answered to motor ', hat, ':', port)
+                        print('Index ', index, 'Switch ', switch, ' did not answered to motor ', hat, ':', port)
                     motor_hat.getMotor(port + 1).run(Adafruit_MotorHAT.RELEASE)
             except:
                 print('An error occured while processing a port of an Adafruit_MotorHAT')
