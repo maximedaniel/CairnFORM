@@ -56,7 +56,7 @@ class CairnFORM:
             instructions = m_in['instructions']
             for instruction in instructions:
                     if not (len(instruction) == 8):
-                        raise Exception("assertion failed for  (len(instruction) == 7)")
+                        raise Exception("assertion failed for  (len(instruction) == 8)")
                         
                     address = instruction[0]
                     target = instruction[1:5]
