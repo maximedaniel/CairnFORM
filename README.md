@@ -1,10 +1,9 @@
 # Installation
-sudo apt-get update
-sudo pip install adafruit-circuitpython-motorkit
-sudo pip install paho-mqtt
-sudo pip install termcolor
 
-Enable i2c with 'sudo raspi-config'
+- run `sudo apt-get update`
+- run `sudo pip install adafruit-circuitpython-motorkit`
+- run `sudo raspi-config` and enable I2C
+- run `sudo pip install -r ./requirements.txt`
 
 ![alt text](https://github.com/maximedaniel/CairnFORM/blob/master/img/institutions.png "Logo Institutions")
 
