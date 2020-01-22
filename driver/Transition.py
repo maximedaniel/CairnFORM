@@ -1,6 +1,6 @@
 import math
 
-
+# Define motion transition modes
 class Transition:
     LINEAR = 'LINEAR'
     EASE_IN_QUAD = 'EASE_IN_QUAD'

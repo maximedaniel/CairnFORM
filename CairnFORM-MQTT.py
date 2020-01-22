@@ -13,11 +13,6 @@ class CairnFORM:
 
     def __init__(self):
         self.stack = StackController()
-        #try:
-        #    self.cui = CUI(self.stack)
-        #except (KeyboardInterrupt, SystemExit):
-        #    print('\n! Received keyboard interrupt, quitting threads.\n')
-
         self.mqtt = mqtt.Client(self.stack.name)
         self.mqtt.username_pw_set(username="a0685b26", password="a31d5cfd03af338b")
         self.topic_output = self.stack.name + "/output"
@@ -42,12 +37,6 @@ class CairnFORM:
         addr = ni.ifaddresses('eth0')[AF_INET][0]['addr'] or ni.ifaddresses('l0')[AF_INET][0]['addr']
         payload = {'vnc': addr, 'message': msg}
         self.mqtt.publish(self.topic_output, json.dumps(payload))
-        
-        
-    #payload = {
-    # 'description':'Stack of expandable illuminated ring by Maxime DANIEL',
-    # 'input': "instructions:[[address(0..N), red(0..255), green(0..255), blue(0..255), position(0..200), delay(0..*), duration(0..*), transition(String)], ..]"
-    #    }
             
     def input(self, client, userdata, msg):
         try:
@@ -82,6 +71,5 @@ class CairnFORM:
         except Exception as ex:
             self.output(str(ex))
             pass
-
 
 CairnFORM()
