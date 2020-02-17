@@ -5,7 +5,7 @@
   #include <avr/power.h>
 #endif
 
-#define NUMPIXELS        6
+#define NUMPIXELS        12
 #define PWM_SIZE         12
 #define PWM_0            13
 #define PWM_1            12
