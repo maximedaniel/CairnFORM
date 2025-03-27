@@ -19,6 +19,10 @@
 - change password with at least 8 characters
 - sudo systemctl restart hostapd
 
+# VNC viewer config
+- increase resolution:
+    https://dev.to/wyatth/fix-raspberry-pi-vnc-low-resolutionsmall-screen-gla
+    
 # CairnFORM
 
 Inspired by _cairns_, CairnFORM is a shape-changing cylindrical display that simultaneously inform users at 360° using color-changing and shape-changing abilities. CairnFORM is built as a stack of expandable illuminated rings. As a use case, we use CairnFORM for visualizing and announcing variations of local renewable energy production. We deployed CairnFORM in the middle of an open plan for helping employees to shift laptop battery charge to peak hours of local renewable energy production (i.e. promoting energy cleanliness).
