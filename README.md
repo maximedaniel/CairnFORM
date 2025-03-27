@@ -9,9 +9,15 @@
 
 ## Remote Programming using a RaspberryPi configured as a WiFi AP@192.165.5.1
 
-- connect your computer to Wi-Fi with SSID `CairnFORM`
-- open `VNC viewer` on Windows
-- connect to `192.168.5.1`
+- connect your computer to Wi-Fi with SSID `CairnFORM` / pwd 'ESTIA64210'
+- open `VNC viewer` on Windows 
+- connect to `192.168.5.1` using user "pi"/ pwd "ESTIA64210"
+
+# Changing SSID password
+
+- sudo nano /etc/hostapd/hostapd.conf
+- change password with at least 8 characters
+- sudo systemctl restart hostapd
 
 # CairnFORM
 
