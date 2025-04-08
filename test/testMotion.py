@@ -4,7 +4,7 @@ import time
 import RPi.GPIO as GPIO
 
 MAX_TIME = 10 #seconds
-HATS = [0x61, 0x62, 0x63, 0x64, 0x65, 0x66]
+HATS = [str(0x61), str(0x62), str(0x63), str(0x64), str(0x65), str(0x66)]
 
 @staticmethod
 def rpm(duration, steps):
@@ -21,7 +21,39 @@ for HAT in list(HATS):
 		HATS.remove(HAT)
 		print('An error occured while processing Adafruit_MotorHAT at I2C address ' + str(HAT))
 print("detected hats: %s" %hats)
-exit()
+# loop through user input if q then stop loop else move stepper motor given direction and number of steps
+# forward = 1
+# backward = 2 
+# 0 0 1 5
+while True:
+	try:
+		user_input = input('Enter a command (q to quit): ')
+		if user_input == 'q':
+			break
+		else:
+			user_input = user_input.split()
+			if len(user_input) != 4:
+				print('Invalid command. Please enter a command in the format: <hat> <port> <direction> <steps>')
+				continue
+			hat_id = user_input[0]
+			port_id = int(user_input[1])
+			direction = int(user_input[2])
+			steps = int(user_input[3])
+			if hat_id not in HATS:
+				print('Invalid hat id. Please enter a valid hat id.')
+				continue
+			hat = hats[hat_id]
+			motor = hat.getStepper(200, port_id + 1)
+			motor.setSpeed(30)
+			motor.step(steps, direction, Adafruit_MotorHAT.DOUBLE)
+			 
+	except KeyboardInterrupt:
+		break
+	except Exception as e:
+		print('An error occured: ' + str(e))
+
+
+
 for i, hat in enumerate(hats):
 	try:
 		for port in range(2):
